@@ -26,7 +26,7 @@ const ITEMS: Item[] = [
   {
     title: "Event Booking System",
     desc: "Developed a full-featured event booking website that enables users to discover events, check availability, and book tickets online.",
-    image: "/image/portfolio/event-booking.png",
+    image: "/image/portfolio/event-booking.png.png",
     category: "web",
     github: "https://github.com/MekuanintT/bdac-web-platform",
     live: "https://bdac-web-platform.vercel.app/",
@@ -162,7 +162,7 @@ export default function Portfolio() {
             onClick={() => setLightbox(null)}
             aria-label="Close"
           >
-            <i className="fa-solid fa-xmark text-[28px]" />
+            <i className="fa-solid fa-xmark text-[28px]" /> 
           </button>
           <img src={lightbox} alt="Preview" className="max-h-[85vh] w-auto rounded-md" />
         </div>
