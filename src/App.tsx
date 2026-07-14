@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -13,10 +14,19 @@ const SECTION_IDS = ["home", "about", "services", "portfolio", "blog", "contact"
 
 export default function App() {
   const active = useScrollSpy(SECTION_IDS);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>
-      <Loader />
       <Navbar active={active} />
       <Hero />
       <About />

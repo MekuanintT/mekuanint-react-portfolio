@@ -17,7 +17,7 @@ export default function Contact() {
     <section id="contact" className="contact section-group section-padding bg-ink py-[120px]">
       <div className="container">
         <div className="section-head mx-auto mb-[80px] text-center lg:w-8/12">
-          <h4>Contact Us</h4>
+          <h4>Contact</h4>
         </div>
 
         <div className="row grid grid-cols-1 gap-10 lg:grid-cols-12">

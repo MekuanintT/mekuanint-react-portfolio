@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { scrollToSection } from "@/hooks/useScrollSpy";
 import AnimatedHeadline from "./AnimatedHeadline";
 
@@ -24,25 +23,23 @@ export default function Hero() {
           </h1>
           <a
             href="#0"
+            className="butn butn-bord mt-[30px]"
             onClick={(e) => {
               e.preventDefault();
               scrollToSection("portfolio");
             }}
           >
-            <Button variant="outline" className="mt-[30px]">
-              View Work
-            </Button>
+            <span>View Work</span>
           </a>
           <a
             href="#0"
+            className="butn butn-light mt-[30px]"
             onClick={(e) => {
               e.preventDefault();
               scrollToSection("contact");
             }}
           >
-            <Button variant="light" className="mt-[30px]">
-              Hire Me!
-            </Button>
+            <span>Hire Me!</span>
           </a>
         </div>
       </div>

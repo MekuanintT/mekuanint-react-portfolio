@@ -22,6 +22,13 @@ export default function Navbar({ active }: { active: string }) {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   const handleClick = (id: string) => {
     setOpen(false);
     scrollToSection(id);
@@ -30,11 +37,11 @@ export default function Navbar({ active }: { active: string }) {
   return (
     <nav
       className={cn(
-        "navbar fixed left-0 top-0 z-[9] min-h-[80px] w-full bg-transparent transition-colors duration-500",
-        scrolled && "bg-[#222]"
+        "navbar fixed left-0 top-0 z-[999] min-h-[80px] w-full bg-transparent transition-colors duration-500",
+        (scrolled || open) && "bg-[#222]"
       )}
     >
-      <div className="container flex items-center justify-between">
+      <div className="container relative flex items-center justify-between">
         <a
           className="logo w-[90px] py-[15px]"
           href="#0"
@@ -53,13 +60,13 @@ export default function Navbar({ active }: { active: string }) {
           onClick={() => setOpen((v) => !v)}
         >
           <span className="icon-bar text-white">
-            <i className="fa-solid fa-bars" />
+            <i className="fa-solid fa-bars text-[26px]" />
           </span>
         </button>
 
         <div
           className={cn(
-            "navbar-collapse w-full lg:!block lg:w-auto",
+            "navbar-collapse absolute left-0 top-full z-[999] w-full lg:static lg:!block lg:w-auto",
             open
               ? "block max-h-[340px] overflow-auto bg-[#111] py-[10px] text-center"
               : "hidden"
@@ -68,7 +75,7 @@ export default function Navbar({ active }: { active: string }) {
           <ul className="navbar-nav ml-auto flex flex-col lg:flex-row lg:items-center">
             {NAV_ITEMS.map((item) => (
               <li className="nav-item" key={item.id}>
-              <a  
+                <a
                   href={`#${item.id}`}
                   onClick={(e) => {
                     e.preventDefault();

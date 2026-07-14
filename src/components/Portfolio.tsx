@@ -24,9 +24,9 @@ const ITEMS: Item[] = [
     live: "https://69a825adb1413a5ed511a72f--unique-llama-7db993.netlify.app/",
   },
   {
-    title: "Event Booking System",
+    title: "Event Booking System (Main)",
     desc: "Developed a full-featured event booking website that enables users to discover events, check availability, and book tickets online.",
-    image: "/image/portfolio/event-booking.png.png",
+    image: "/image/portfolio/PayFlow.png",
     category: "web",
     github: "https://github.com/MekuanintT/bdac-web-platform",
     live: "https://bdac-web-platform.vercel.app/",
@@ -48,6 +48,22 @@ const ITEMS: Item[] = [
     live: "https://bdac-web-platform.vercel.app/",
   },
   {
+    title: "Event Booking System",
+    image: "/image/portfolio/event-booking.png.png",
+    category: "graphic",
+    small: true,
+    github: "https://github.com/MekuanintT/placeholder-one",
+    live: "https://example.com/placeholder-one",
+  },
+  {
+    title: "Gallery UI",
+    image: "/image/portfolio/bmwm.png",
+    category: "graphic",
+    small: true,
+    github: "https://github.com/MekuanintT/placeholder-two",
+    live: "https://example.com/placeholder-two",
+  },
+  {
     title: "Agency Website",
     desc: "Modern agency website designed to showcase services, projects, and attract clients through clean UI and strong user experience.",
     image: "/image/portfolio/agency.png",
@@ -56,20 +72,20 @@ const ITEMS: Item[] = [
     live: "https://mekuanint-web-solutions.vercel.app/",
   },
   {
-    title: "FuelControl — Fleet Management System",
-    desc: "Built a full-stack fleet fuel management system with real-time quota enforcement, JWT authentication, AI copilot, and consumption analytics. React + Node.js + PostgreSQL.",
-    image: "/image/portfolio/fuel-d.png",
-    category: "web",
-    github: "https://github.com/MekuanintT/fuelcontrol",
-    live: "https://fuelcontrol-eight.vercel.app/",
-  },
-  {
-    title: "Apple Minimal UI",
+     title: "Apple Minimal UI",
     desc: "I build Apple-style websites using React JS, focusing on simplicity, performance, and elegant user experiences.",
     image: "/image/portfolio/apple.png",
     category: "brand",
     github: "https://github.com/MekuanintT/Apple-website",
     live: "https://cute-lily-7a7e71.netlify.app/",
+  },
+  {
+   title: "FuelControl — Fleet Management System",
+    desc: "Built a full-stack fleet fuel management system with real-time quota enforcement, JWT authentication, AI copilot, and consumption analytics. React + Node.js + PostgreSQL.",
+    image: "/image/portfolio/fuel-d.png",
+    category: "web",
+    github: "https://github.com/MekuanintT/fuelcontrol",
+    live: "https://fuelcontrol-eight.vercel.app/",
   },
 ];
 
@@ -80,6 +96,55 @@ const FILTERS: { label: string; value: "all" | Category }[] = [
   { label: "UI/UX Design", value: "graphic" },
 ];
 
+function ItemCard({
+  item,
+  index,
+  filter,
+  onLightbox,
+}: {
+  item: Item;
+  index: number;
+  filter: string;
+  onLightbox: (img: string) => void;
+}) {
+  return (
+    <div
+      key={`${filter}-${item.title}`}
+      className="items portfolio-item-anim p-[15px]"
+      style={{ animationDelay: `${index * 80}ms` }}
+    >
+      <div className="item-img group relative overflow-hidden rounded-[5px]">
+        <img src={item.image} alt={item.title} className="w-full object-cover" />
+        <div className="item-img-overlay absolute inset-[5px] z-[2] flex translate-y-[10px] flex-col items-center justify-center bg-black/90 p-6 text-center opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+          <h6 className="relative mb-[8px] -translate-y-[15px] font-medium transition-transform duration-500 group-hover:translate-y-0">
+            {item.title}
+          </h6>
+          {item.desc && <p className="text-[13px]">{item.desc}</p>}
+
+          <div className="mt-4 flex items-center gap-[50px]">
+            {item.lightbox ? (
+              <button onClick={() => onLightbox(item.image)} aria-label="View image">
+                <i className="fa-brands fa-github text-[30px] text-gold" />
+              </button>
+            ) : (
+              item.github && (
+                <a href={item.github} target="_blank" rel="noreferrer" aria-label="View source">
+                  <i className="fa-brands fa-github text-[30px] text-gold" />
+                </a>
+              )
+            )}
+            {item.live && (
+              <a href={item.live} target="_blank" rel="noreferrer" aria-label="View live site">
+                <i className="fa-solid fa-play text-[30px] text-gold" />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Portfolio() {
   const [filter, setFilter] = useState<"all" | Category>("all");
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -89,8 +154,21 @@ export default function Portfolio() {
     [filter]
   );
 
+  const bigItems = visible.filter((i) => !i.small);
+  const smallItems = visible.filter((i) => i.small);
+
   return (
     <section id="portfolio" className="portfolio section-group section-padding overflow-hidden bg-ink py-[120px]">
+      <style>{`
+        @keyframes portfolioFadeIn {
+          0% { opacity: 0; transform: translateY(20px) scale(0.96); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .portfolio-item-anim {
+          animation: portfolioFadeIn 0.5s ease forwards;
+          opacity: 0;
+        }
+      `}</style>
       <div className="container">
         <div className="section-head mx-auto mb-10 text-center lg:w-8/12">
           <h4>Portfolio</h4>
@@ -114,39 +192,23 @@ export default function Portfolio() {
         </div>
 
         <div className="gallery grid grid-cols-1 [grid-auto-flow:dense] gap-0 sm:grid-cols-2 lg:grid-cols-4">
-          {visible.map((item) => (
-            <div
-              key={item.title}
-              className={cn("items p-[15px]", !item.small && "lg:col-span-2")}
-            >
-              <div className="item-img group relative overflow-hidden rounded-[5px]">
-                <img src={item.image} alt={item.title} className="w-full object-cover" />
-                <div className="item-img-overlay absolute inset-[5px] z-[2] flex translate-y-[10px] flex-col justify-center bg-black/90 p-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  <h6 className="relative mb-[8px] -translate-y-[15px] font-medium transition-transform duration-500 group-hover:translate-y-0">
-                    {item.title}
-                  </h6>
-                  {item.desc && <p className="text-[13px]">{item.desc}</p>}
+          {bigItems.slice(0, 1).map((item, i) => (
+            <div key={`${filter}-${item.title}`} className="lg:col-span-2">
+              <ItemCard item={item} index={i} filter={filter} onLightbox={setLightbox} />
+            </div>
+          ))}
 
-                  <div className="absolute bottom-[15px] right-[15px] flex items-center gap-[50px]">
-                    {item.lightbox ? (
-                      <button onClick={() => setLightbox(item.image)} aria-label="View image">
-                        <i className="fa-brands fa-github text-[30px] text-gold" />
-                      </button>
-                    ) : (
-                      item.github && (
-                        <a href={item.github} target="_blank" rel="noreferrer" aria-label="View source">
-                          <i className="fa-brands fa-github text-[30px] text-gold" />
-                        </a>
-                      )
-                    )}
-                    {item.live && (
-                      <a href={item.live} target="_blank" rel="noreferrer" aria-label="View live site">
-                        <i className="fa-solid fa-play text-[30px] text-gold" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
+          {smallItems.length > 0 && (
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2">
+              {smallItems.map((item, i) => (
+                <ItemCard key={`${filter}-${item.title}`} item={item} index={i} filter={filter} onLightbox={setLightbox} />
+              ))}
+            </div>
+          )}
+
+          {bigItems.slice(1).map((item, i) => (
+            <div key={`${filter}-${item.title}`} className="lg:col-span-2">
+              <ItemCard item={item} index={i + 1} filter={filter} onLightbox={setLightbox} />
             </div>
           ))}
         </div>

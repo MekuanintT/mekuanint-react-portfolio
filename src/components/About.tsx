@@ -55,8 +55,8 @@ export default function About() {
       <div className="container">
         <div className="row grid grid-cols-1 gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:items-center">
           <div className="valign flex">
-            <div className="skills w-full py-[100px] max-md:py-0 max-md:text-center">
-              <div className="section-head mb-[80px]">
+            <div className="skills w-full py-[100px] max-md:pb-0 max-md:pt-[60px] max-md:text-center">
+              <div className="section-head mx-auto mb-10 text-center lg:w-8/12 lg:mb-[80px] lg:text-left">
                 <h4>About Me</h4>
               </div>
               {SKILLS.map((s) => (
